@@ -1,0 +1,49 @@
+// design code for mutiplexer 4:1:
+
+module multiplexer(i0,i1,i2,i3,s0,s1,y);
+  input i0,i1,i2,i3,s0,s1;
+  output reg y;
+  always @(*)
+    begin
+      if (s0==0 && s1==0)
+        y=i0;
+      else if (s0==0 && s1==1)
+        y=i1;
+       else if (s0==1 && s1==0)
+        y=i2;
+      
+      else
+        y=i3;
+           
+      
+    end 
+endmodule
+
+//testbench for 4:1 multiplexer:
+
+module tb;
+  reg i0,i1,i2,i3,s1,s0;
+  wire y;
+  multiplexer u1(.i0(i0),.i1(i1),.i2(i2),.i3(i3),.s0(s0),.s1(s1),.y(y));
+  initial 
+    begin
+      s0=0;s1=0;i0=0;i1=0;i2=0;i3=0;#10;
+      s0=0;s1=1;i0=0;i1=1;i2=1;i3=1;#10;
+      s0=1;s1=0;i0=0;i1=1;i2=0;i3=1;#10;
+      s0=1;s1=1;i0=1;i1=1;i2=1;i3=1;#10;
+      
+    end
+      initial
+        begin
+          $monitor("s0=%0b,s1=%0b,i0=%0b,i1=%0b,i2=%0b,i3=%0b,y=%0b",s0,s1,i0,i1,i2,i3,y);
+        end
+    
+endmodule
+
+/output:
+#KERNEL: s0=0,s1=0,i0=0,i1=0,i2=0,i3=0,y=0
+# KERNEL: s0=0,s1=1,i0=0,i1=1,i2=1,i3=1,y=1
+# KERNEL: s0=1,s1=0,i0=0,i1=1,i2=0,i3=1,y=0
+# KERNEL: s0=1,s1=1,i0=1,i1=1,i2=1,i3=1,y=1
+
+
