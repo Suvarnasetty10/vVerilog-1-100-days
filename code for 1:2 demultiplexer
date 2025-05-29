@@ -1,0 +1,39 @@
+//design code for 1:2 demultiplexer
+
+module demultiplexer( 
+             input  wire sel,
+              input wire  in,
+              output reg [1:0] y);
+always @(*)
+  begin
+    y=2'b00;
+    
+    case(sel)
+      1'b0:y[0]=in;
+      1'b1:y[1]=in;
+    endcase
+  end
+endmodule
+
+
+testbench :
+module tb;
+  reg sel;
+  reg in;
+  wire [1:0] y;
+  integer j;
+  demultiplexer u1(.sel(sel),.in(in),.y(y));
+  initial begin
+    in=1'b1;
+    for(j=0;j<2;j=j+1) begin
+      sel=j;
+      #3;
+     $display("sel=%b|in=%b|y[1]=%b|y[0]=%b|y=%02b", sel, in, y[1], y[0], y);
+    end
+    $finish;
+  end
+endmodule
+
+//output:
+#KERNEL: sel=0|in=1|y[1]=0|y[0]=1|y=01
+# KERNEL: sel=1|in=1|y[1]=1|y[0]=0|y=10
