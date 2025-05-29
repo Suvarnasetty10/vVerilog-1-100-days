@@ -1,0 +1,49 @@
+// Code your design code for 1:8 demultiplexer
+ module demultiplexer( 
+   input  wire[2:0] sel,
+              input wire  in,
+   output reg [7:0] y);
+always @(*)
+  begin
+    y=8'b00000000;
+    
+    case(sel)
+      3'b000:y[0]=in;
+      3'b001:y[1]=in;
+      3'b010:y[2]=in;
+      3'b011:y[3]=in;
+      3'b100:y[4]=in;
+      3'b101:y[5]=in;
+      3'b110:y[6]=in;
+      3'b111:y[7]=in;
+    endcase
+  end
+endmodule
+//output:
+module tb;
+  reg [2:0]sel;
+  reg in;
+  wire [7:0] y;
+  integer j;
+  demultiplexer u1(.sel(sel),.in(in),.y(y));
+  initial begin
+    in=1'b1;
+    for(j=0;j<8;j=j+1) begin
+      sel=j;
+      #3;
+      $display("sel=%3b|in=%b|y[1]=%b|y[0]=%b|y=%08b", sel, in, y[1], y[0], y);
+    end
+    
+    $finish;
+  end
+endmodule
+
+//output:
+# KERNEL: sel=000|in=1|y[1]=0|y[0]=1|y=00000001
+# KERNEL: sel=001|in=1|y[1]=1|y[0]=0|y=00000010
+# KERNEL: sel=010|in=1|y[1]=0|y[0]=0|y=00000100
+# KERNEL: sel=011|in=1|y[1]=0|y[0]=0|y=00001000
+# KERNEL: sel=100|in=1|y[1]=0|y[0]=0|y=00010000
+# KERNEL: sel=101|in=1|y[1]=0|y[0]=0|y=00100000
+# KERNEL: sel=110|in=1|y[1]=0|y[0]=0|y=01000000
+# KERNEL: sel=111|in=1|y[1]=0|y[0]=0|y=10000000
