@@ -1,0 +1,52 @@
+
+//code for 4:1 multiplexer (different inputs)
+module multiplexer(i0,i1,i2,i3,s0,s1,y);
+  input s0,s1;
+  input[8:0]i0;
+  input[8:0]i1;
+  input[8:0]i2;
+  input[8:0]i3;
+  
+  output reg[8:0] y;
+  always @(*)
+    begin
+      if (s0==0 && s1==0)
+        y=i0;
+      else if (s0==0 && s1==1)
+        y=i1;
+       else if (s0==1 && s1==0)
+        y=i2;
+      
+      else
+        y=i3;      
+    end 
+endmodule
+// tb code for 4:1 
+module tb;
+  reg s1,s0;
+  reg[8:0]i0;
+  reg[8:0]i1;
+  reg[8:0]i2;
+  reg[8:0]i3;
+  integer a=4;
+  integer b=2;
+  wire [8:0]y;
+  multiplexer u1(.i0(i0),.i1(i1),.i2(i2),.i3(i3),.s0(s0),.s1(s1),.y(y));
+  initial 
+    begin
+      s0=0;s1=0;i0=a+b;i1=0;i2=0;i3=0;#10;
+      s0=0;s1=1;i0=0;i1=a-b;i2=1;i3=1;#10;
+      s0=1;s1=0;i0=0;i1=1;i2=a*b;i3=1;#10;
+      s0=1;s1=1;i0=1;i1=1;i2=1;i3=a/b;#10;
+      
+    end
+      initial
+        begin
+          $monitor("s0=%0b,s1=%0b,i0=%0d,i1=%0d,i2=%0d,i3=%0d,y=%0d",s0,s1,i0,i1,i2,i3,y);
+        end  
+endmodule
+//output:
+#KERNEL: s0=0,s1=0,i0=6,i1=0,i2=0,i3=0,y=6
+# KERNEL: s0=0,s1=1,i0=0,i1=2,i2=1,i3=1,y=2
+# KERNEL: s0=1,s1=0,i0=0,i1=1,i2=8,i3=1,y=8
+# KERNEL: s0=1,s1=1,i0=1,i1=1,i2=1,i3=2,y=2
