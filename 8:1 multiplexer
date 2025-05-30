@@ -1,0 +1,48 @@
+
+//designcode for 8:1 multiplexer
+module mux(
+  input wire[7:0]in,
+  input wire[2:0]sel,
+  output reg y);
+  always@ (*) begin
+    case(sel)
+      3'b000:y=in[0];
+      3'b001:y=in[1];
+      3'b010:y=in[2];
+      3'b011:y=in[3];
+      3'b100:y=in[4];
+      3'b101:y=in[5];
+      3'b110:y=in[6];
+      3'b111:y=in[7];
+     default: y = 1'b0; 
+    endcase
+  end
+  endmodule
+//tbcode for 8:1 multiplexer
+module tb;
+  reg[7:0]in;
+  reg[2:0]sel;
+   wire y;
+  integer j;
+  mux u1(.sel(sel),.in(in),.y(y));
+  initial begin
+    in=8'b10101010;
+    for(j=0;j<8;j=j+1) begin
+      sel=j;
+      #3;
+      $display(" time=%0t,sel=%0d,in=%0b,y=%0b",$time,sel,in,y);
+    end
+    $finish;
+  end
+endmodule
+
+//output:
+# KERNEL:  time=3,sel=0,in=10101010,y=0
+# KERNEL:  time=6,sel=1,in=10101010,y=1
+# KERNEL:  time=9,sel=2,in=10101010,y=0
+# KERNEL:  time=12,sel=3,in=10101010,y=1
+# KERNEL:  time=15,sel=4,in=10101010,y=0
+# KERNEL:  time=18,sel=5,in=10101010,y=1
+# KERNEL:  time=21,sel=6,in=10101010,y=0
+# KERNEL:  time=24,sel=7,in=10101010,y=1
+     
