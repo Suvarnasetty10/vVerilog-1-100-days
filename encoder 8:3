@@ -1,0 +1,48 @@
+//design code of 8:3 encoder
+module encoder(
+  input wire[7:0]d,
+  output reg[2:0]y
+);
+  always @(*) begin
+    case(d)
+      
+      8'b00000001:y=3'b000;
+      8'b00000010:y=3'b001;
+      8'b00000100:y=3'b010;
+      8'b00001000:y=3'b011;
+      8'b00010000:y=3'b100;
+      8'b00100000:y=3'b101;
+      8'b01000000:y=3'b110;
+      8'b10000000:y=3'b111;
+      default:y=3'bxxx;
+    endcase
+  end
+endmodule
+//testbench for encoder
+module tb;
+  reg [7:0]d;
+  wire[2:0]y;
+  encoder u1(.d(d),.y(y));
+  initial
+    begin
+      $monitor("d=%8b;y=%b",d,y);
+      d=8'b00000001;#3;
+      d=8'b00000010;#3;
+      d=8'b00000100;#3;
+      d=8'b00001000;#3;
+      d=8'b00010000;#3;
+      d=8'b00100000;#3;
+      d=8'b01000000;#3;
+      d=8'b10000000;#3;
+    end
+endmodule
+
+//output:
+# KERNEL: d=00000001;y=000
+# KERNEL: d=00000010;y=001
+# KERNEL: d=00000100;y=010
+# KERNEL: d=00001000;y=011
+# KERNEL: d=00010000;y=100
+# KERNEL: d=00100000;y=101
+# KERNEL: d=01000000;y=110
+# KERNEL: d=10000000;y=111
