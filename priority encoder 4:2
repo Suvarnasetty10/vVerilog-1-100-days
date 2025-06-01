@@ -1,0 +1,38 @@
+//design code of  priority  encoder4:2
+module encoder(
+  input wire [3:0]d,
+  output reg [1:0]y
+);
+  always@(*)begin
+    casex(d)
+      4'b0001:y=2'b00;
+      4'b001x:y=2'b01;
+      4'b01xx:y=2'b10;
+      4'b1xxx:y=2'b11;
+      default:y=2'b00;
+    endcase
+  end
+endmodule
+//testbench code of encoder4:2
+module tb;
+  reg [3:0]d;
+  wire [1:0]y;
+  encoder u1 (.d(d),.y(y));
+  initial begin
+    $monitor("d=%4b,y=%2b",d,y);
+    d=1000;#3;
+    d=0001;#3;
+    d=0010;#3;
+    d=0100;#3;
+    d=1000;#3;
+  end
+endmodule
+//output:
+# KERNEL: d=1000,y=11
+# KERNEL: d=0001,y=00
+# KERNEL: d=1010,y=11
+# KERNEL: d=0100,y=10
+# KERNEL: d=1000,y=11
+    
+    
+    
