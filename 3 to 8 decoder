@@ -1,0 +1,52 @@
+// design code for  3 to 8 decoder
+module decoder(
+  input wire [2:0] d,
+  input wire enable,
+  output reg[7:0] y);
+  always@(*)begin
+    if(!enable) begin
+      y=8'b00000000;
+    end else begin    
+    case(d)
+      3'b000:y=8'b0000_0001;
+      3'b001:y=8'b0000_0010;
+      3'b010:y=8'b0000_0100;
+      3'b011:y=8'b0000_1000;
+      3'b100:y=8'b0001_0000;
+      3'b101:y=8'b0010_0000;
+      3'b110:y=8'b0100_0000;
+      3'b111:y=8'b1000_0000;
+      default:y=8'b0000_0000;
+    endcase
+    end
+  end  
+endmodule
+
+// testbench code for  3 to 8 decoder
+module tb;
+  reg [2:0]d;
+  reg enable;
+  wire[7:0] y;
+  decoder u1(.d(d),.y(y),.enable(enable));
+  initial begin
+    $monitor("d=%03b,y=%08b,enable=%b",d,y,enable);
+    enable=0;d=000;#3;
+    enable=1;d=001;#3;
+    enable=0;d=101;#3;
+    enable=1;d=100;#3;
+    enable=1;d=111;#3;
+    
+  end
+endmodule
+
+//output:
+# KERNEL: d=000,y=00000000,enable=0
+# KERNEL: d=001,y=00000010,enable=1
+# KERNEL: d=101,y=00000000,enable=0
+# KERNEL: d=100,y=00010000,enable=1
+# KERNEL: d=111,y=10000000,enable=1
+
+  
+  
+      
+  
