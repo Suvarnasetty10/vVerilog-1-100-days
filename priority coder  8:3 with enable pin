@@ -1,0 +1,51 @@
+// design code for priority coder  8:3 with enable pin 
+module encoder(
+  input wire[7:0] d,
+  input wire  enable,
+  output reg[2:0]y
+);
+  always@(*)begin
+    if(!enable) begin
+      y=3'b000;
+    end else begin
+    casex(d)
+      8'b00000001:y=3'b000;
+      8'b0000001x:y=3'b001;
+      8'b000001xx:y=3'b010;
+      8'b00001xxx:y=3'b011;
+      8'b0001xxxx:y=3'b100;
+      8'b001xxxxx:y=3'b101;
+      8'b01xxxxxx:y=3'b110;
+      8'b1xxxxxxx:y=3'b111;
+      default:y=3'b000;
+    endcase
+    end
+  end
+endmodule
+//// tb code for priority coder  8:3 with enable pin 
+    module tb;
+  reg [7:0]d;
+  reg enable;
+  wire[2:0]y;
+  encoder u1(.d(d),.y(y),.enable(enable));
+  initial begin
+    $monitor("d=%8b,y=%b,y=%d,enable=%b",d,y,y,enable);
+    enable=0;d=8'b00000001;#3;
+    enable=1;d=8'b00000011;#3;
+    enable=0;d=8'b000001xx;#3;
+    enable=1;d=8'b00001111;#3;
+    enable=0;d=8'b0001xxxx;#3;
+    enable=1;d=8'b001xxxxx;#3;
+    enable=0;d=8'b01xxxxxx;#3;
+    enable=1;d=8'b11111111;#3;
+  end
+endmodule
+//output:
+# KERNEL: d=00000001,y=000,y=0,enable=0
+# KERNEL: d=00000011,y=001,y=1,enable=1
+# KERNEL: d=000001xx,y=000,y=0,enable=0
+# KERNEL: d=00001111,y=011,y=3,enable=1
+# KERNEL: d=0001xxxx,y=000,y=0,enable=0
+# KERNEL: d=001xxxxx,y=101,y=5,enable=1
+# KERNEL: d=01xxxxxx,y=000,y=0,enable=0
+# KERNEL: d=11111111,y=111,y=7,enable=1
