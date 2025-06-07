@@ -1,0 +1,56 @@
+//design code for 4bit comparator
+module comparator(a,b,l,e,h);
+  input[3:0]a,b;
+  output reg l,e,h;
+  always@(*) begin
+    if(a>b) begin
+      l=1'b0;
+      e=1'b0;
+      h=1'b1;
+    end
+    else if(a<b)begin
+      l=1'b1;
+      e=1'b0;
+      h=1'b0;
+    end
+    else begin
+      l=1'b0;
+      e=1'b1;
+      h=1'b0;
+    end
+  end
+endmodule
+
+// testbench  for 4bit comparator
+// or browse Examples
+module tb;
+  reg[3:0]a,b;
+  wire l,e,h;
+  comparator u1(.a(a),.b(b),.l(l),.e(e),.h(h));
+  initial begin
+    $monitor("a=%4b,b=%4b,l=%0b,e=%0b,h=%0b",a,b,l,e,h);
+    a=4'b0000;b=4'b0001;#3;
+    a=4'b0010;b=4'b0000;#3;
+    a=4'b0000;b=4'b0000;#3;
+    //a=1111;b=1111;#3;
+    a=4'b0011;b=4'b1111;#3;
+    a=4'b1111;b=4'b1111;#3;
+    
+  end
+endmodule
+    
+//output:
+# KERNEL: a=0000,b=0001,l=1,e=0,h=0
+# KERNEL: a=0010,b=0000,l=0,e=0,h=1
+# KERNEL: a=0000,b=0000,l=0,e=1,h=0
+# KERNEL: a=0011,b=1111,l=1,e=0,h=0
+# KERNEL: a=1111,b=1111,l=0,e=1,h=0
+    
+    
+    
+      
+      
+      
+      
+    
+    
