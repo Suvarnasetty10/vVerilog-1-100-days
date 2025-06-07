@@ -1,0 +1,56 @@
+//design code for comparator
+module comparator(a,b,l,e,h);
+  input[1:0]a,b;
+  output reg l,e,h;
+  always@(*) begin
+    if(a>b) begin
+      l=1'b0;
+      e=1'b0;
+      h=1'b1;
+    end
+    else if(a<b)begin
+      l=1'b1;
+      e=1'b0;
+      h=1'b0;
+    end
+    else begin
+      l=1'b0;
+      e=1'b1;
+      h=1'b0;
+    end
+  end
+endmodule
+
+//tb code for comparator
+module tb;
+  reg[1:0]a,b;
+  wire l,e,h;
+  comparator u1(.a(a),.b(b),.l(l),.e(e),.h(h));
+  initial begin
+    $monitor("a=%2b,b=%2b,l=%0b,e=%0b,h=%0b",a,b,l,e,h);
+    a=00;b=01;#3;
+    a=10;b=00;#3;
+    a=00;b=00;#3;
+    
+  end
+endmodule
+//output:
+#KERNEL: a=00,b=01,l=1,e=0,h=0
+# KERNEL: a=10,b=00,l=0,e=0,h=1
+# KERNEL: a=00,b=00,l=0,e=1,h=0
+
+    
+
+
+
+
+
+    
+    
+    
+      
+      
+      
+      
+    
+    
