@@ -1,0 +1,35 @@
+//design code for decimal_to _binary
+module  decimal_to_binary(decimal,binary);
+  input wire[7:0] decimal;
+  output reg[7:0] binary;
+  always@(*) begin
+    binary=decimal;
+  end
+endmodule
+
+//tb for decimal to binary
+module tb;
+  reg [7:0] decimal;
+  wire[7:0] binary;
+  decimal_to_binary u1(.decimal(decimal),.binary(binary));
+  initial begin
+    $monitor("decimal=%0d,binary=%8b",decimal,binary);
+    decimal=8'd0;#10;
+    decimal=8'd1;#10;
+    decimal=8'd2;#10;
+    decimal=8'd10;#10;
+    decimal=8'd25;#10;
+    decimal=8'd50;#10;
+    decimal=8'd255;#10;
+    
+  end
+endmodule
+  
+   //output:
+# KERNEL: decimal=0,binary=00000000
+# KERNEL: decimal=1,binary=00000001
+# KERNEL: decimal=2,binary=00000010
+# KERNEL: decimal=10,binary=00001010
+# KERNEL: decimal=25,binary=00011001
+# KERNEL: decimal=50,binary=00110010
+# KERNEL: decimal=255,binary=11111111
