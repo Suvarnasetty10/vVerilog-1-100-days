@@ -1,0 +1,57 @@
+//design code for gates using 8to1 multiplexer
+module multiplexer (a,b,sel,y);
+  input a,b;
+  input[2:0]sel;
+  output  reg y;
+  always@(*)begin
+    case(sel)
+      3'b000:y=a&b;
+      3'b001:y=a|b;
+      3'b010:y=a^b;
+      3'b011:y=a*b;
+      3'b100:y=a+b;
+      3'b101:y=~(a&b);
+      3'b110:y=~(a|b);
+      3'b111:y=~(a^b);
+      
+    endcase
+  end
+endmodule
+//tb code for gates using multiplexer
+// Code your testbench here
+// or browse Examples
+module tb;
+  reg a,b;
+  reg [2:0]sel;
+  wire y;
+  multiplexer u1(.a(a),.b(b),.sel(sel),.y(y));
+  initial begin
+    sel=3'b000;a=1;b=0;#3;  
+    $display("AND:a=%0b,b=%0b,sel=%3b,y=%0b",a,b,sel,y);
+     sel=3'b001;a=1;b=0;#3;  
+    $display("OR:a=%0b,b=%0b,sel=%3b,y=%0b",a,b,sel,y);
+     sel=3'b010;a=1;b=0;#3;  
+    $display("X0R:a=%0b,b=%0b,sel=%3b,y=%0b",a,b,sel,y);
+     sel=3'b011;a=1;b=0;#3;  
+    $display("multiplcation :a=%0b,b=%0b,sel=%3b,y=%0b",a,b,sel,y);
+     sel=3'b100;a=1;b=0;#3;  
+    $display("addition:a=%0b,b=%0b,sel=%3b,y=%0b",a,b,sel,y);
+     sel=3'b101;a=1;b=0;#3;  
+    $display("NAND :a=%0b,b=%0b,sel=%3b,y=%0b",a,b,sel,y);
+     sel=3'b110;a=1;b=0;#3;  
+    $display("NOR :a=%0b,b=%0b,sel=%3b,y=%0b",a,b,sel,y);
+     sel=3'b111;a=1;b=0;#3;  
+    $display("XNOR :a=%0b,b=%0b,sel=%3b,y=%0b",a,b,sel,y);   
+  end
+endmodule
+
+//output:
+# KERNEL: AND:a=1,b=0,sel=000,y=0
+# KERNEL: OR:a=1,b=0,sel=001,y=1
+# KERNEL: X0R:a=1,b=0,sel=010,y=1
+# KERNEL: multiplcation :a=1,b=0,sel=011,y=0
+# KERNEL: addition:a=1,b=0,sel=100,y=1
+# KERNEL: NAND :a=1,b=0,sel=101,y=1
+# KERNEL: NOR :a=1,b=0,sel=110,y=0
+# KERNEL: XNOR :a=1,b=0,sel=111,y=0
+
