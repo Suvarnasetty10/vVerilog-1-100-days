@@ -1,0 +1,46 @@
+// design code Flipflop
+module flipflop(
+  input wire d,
+  input wire clk,
+  input wire reset, 
+  input wire set,// Active-low asynchronous reset
+  output reg q
+);
+  always @(posedge clk or negedge reset or negedge set  ) begin
+  if (!reset)
+    q <= 0;
+    else if(!set)
+      q<=1;
+  else
+    q <= d;
+end
+endmodule
+//tb for dflipflop
+
+module tb;
+  reg d,clk,reset,set;
+  wire q;
+  flipflop u1(.d(d),.q(q),.clk(clk),.reset(reset),.set(set));
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
+  initial begin
+    $monitor("d=%0b,clk=%0b,reset=%0b,set=%0b,q=%0b",d,clk,reset,set,q);
+     set=1;reset=0;clk=1;d=1;#10;
+     set=1;reset=0;clk=1;d=1;#10;
+     set=0;reset=1;clk=1;d=1;#10;
+    
+    $finish;
+  end
+endmodule
+
+//output:
+d=1,clk=1,reset=0,set=1,q=0
+d=1,clk=0,reset=0,set=1,q=0
+d=1,clk=1,reset=0,set=1,q=0
+d=1,clk=0,reset=1,set=0,q=1
+d=1,clk=1,reset=1,set=0,q=1
+
+
+
