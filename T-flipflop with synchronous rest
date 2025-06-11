@@ -1,0 +1,45 @@
+// Design code T-flipflop for synchronous rest
+module flipflop(clk,rst,t,q,q_next);
+  input clk,rst,t;
+  output reg q;
+  output wire q_next;
+  always@(posedge clk or posedge rst)begin
+    if(rst) 
+      q<=1'b0;
+    else
+     q<=(t?~q:q);
+  end
+      assign q_next =~q;
+  
+endmodule
+// TB code T-flipflop for synchronous rest
+module tb;
+  reg clk,rst,t;
+  wire q,q_next;
+  flipflop u1(.clk(clk),.rst(rst),.t(t),.q(q),.q_next(q_next));
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
+  initial begin
+    $monitor("clk=%0b,rst=%0b,t=%0b,q=%0b,q_next=%0b",clk,rst,t,q,q_next);
+    rst=1;t=1;#10;
+    rst=0;t=1;#10;
+    rst=1;t=0;#10;
+    $finish;
+  end
+endmodule
+//output:
+# KERNEL: clk=0,rst=1,t=1,q=0,q_next=1
+# KERNEL: clk=1,rst=1,t=1,q=0,q_next=1
+# KERNEL: clk=0,rst=0,t=1,q=0,q_next=1
+# KERNEL: clk=1,rst=0,t=1,q=1,q_next=0
+# KERNEL: clk=0,rst=1,t=0,q=0,q_next=1
+# KERNEL: clk=1,rst=1,t=0,q=0,q_next=1
+
+  
+    
+    
+  
+  
+
