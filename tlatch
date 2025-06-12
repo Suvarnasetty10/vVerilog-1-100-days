@@ -1,0 +1,37 @@
+//design code for tlatch
+module tlatch(t,clk,q_bef,q_next,enable);
+  input t,clk,enable;
+  output  reg q_bef;
+  output  wire q_next;
+  always@(enable or t) begin
+    if(enable==0)
+      q_bef<=1'b0;
+    else if(enable ==1) begin
+      if(t)
+        q_bef<=~q_bef;
+      else
+         q_bef<=q_bef;
+    end
+  end
+  assign q_next=~q_bef;
+  endmodule 
+//TB code for tlatch
+module  tb;
+  reg  t,enable;
+  wire q_bef,q_next;
+  tlatch u1(.t(t),.enable(enable),.q_bef(q_bef),.q_next(q_next));
+  initial begin
+    $monitor ("enable=%0b,t=%0b,q_bef=%0b,q_next=%0b",enable,t,q_bef,q_next);
+    enable=0;t=1;#10;
+    enable=1;t=1;#10;
+    enable=1;t=0;#10;
+    enable=0;t=1;#10;
+     $finish;
+  end
+endmodule
+//output:
+# KERNEL: enable=0,t=1,q_bef=0,q_next=1
+# KERNEL: enable=1,t=1,q_bef=1,q_next=0
+# KERNEL: enable=1,t=0,q_bef=1,q_next=0
+# KERNEL: enable=0,t=1,q_bef=0,q_next=1
+
