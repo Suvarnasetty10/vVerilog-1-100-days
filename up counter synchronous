@@ -1,0 +1,50 @@
+// Code your design here
+module  upcounter(clk,count,reset);
+  input clk,reset;
+  output reg[3:0] count;
+  always@(posedge clk )begin
+    if(reset==0)
+      count=4'b0000;
+    else
+      count<= count+1;
+  end
+endmodule 
+module tb;
+  reg clk, reset;
+  wire [3:0] count;
+  downcounter u1(.clk(clk), .reset(reset), .count(count));
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
+  initial begin
+    reset = 0;      
+    #10;
+    reset = 1;      
+    #160;
+    $finish;        
+  end
+  // Print output at every rising edge of clk
+  always @(posedge clk) begin
+    $display("Time=%0t clk=%b reset=%b count=%0d", $time, clk, reset, count);
+  end
+endmodule
+//output:
+KERNEL: Time=5 clk=1 reset=0 count=x
+# KERNEL: Time=15 clk=1 reset=1 count=0
+# KERNEL: Time=25 clk=1 reset=1 count=1
+# KERNEL: Time=35 clk=1 reset=1 count=2
+# KERNEL: Time=45 clk=1 reset=1 count=3
+# KERNEL: Time=55 clk=1 reset=1 count=4
+# KERNEL: Time=65 clk=1 reset=1 count=5
+# KERNEL: Time=75 clk=1 reset=1 count=6
+# KERNEL: Time=85 clk=1 reset=1 count=7
+# KERNEL: Time=95 clk=1 reset=1 count=8
+# KERNEL: Time=105 clk=1 reset=1 count=9
+# KERNEL: Time=115 clk=1 reset=1 count=10
+# KERNEL: Time=125 clk=1 reset=1 count=11
+# KERNEL: Time=135 clk=1 reset=1 count=12
+# KERNEL: Time=145 clk=1 reset=1 count=13
+# KERNEL: Time=155 clk=1 reset=1 count=14
+# KERNEL: Time=165 clk=1 reset=1 count=15
+    
