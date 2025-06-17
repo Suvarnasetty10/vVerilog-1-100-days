@@ -1,0 +1,39 @@
+//code for design code
+module ringcounter(clk,reset,q);
+  input clk,reset;
+  output reg[3:0]q;
+  always@(posedge clk or negedge reset) begin
+    if(!reset)
+      q<=4'b0001;
+    else 
+      q<={q[2:0],q[3]};
+  end
+endmodule
+  //testbench for RING Counter  
+  module tb;
+  reg clk,reset;
+  wire [3:0] q;
+  ringcounter u1(.clk(clk),.reset(reset),.q(q));
+  initial begin
+    clk=0;
+    forever #5 clk=~clk;
+  end
+  initial begin
+    reset=0;#10;
+    reset=1;#40;
+    $finish;
+  end
+  always@(posedge clk)begin
+    $display("clk=%0b,reset=%0b,q=%4b",clk,reset,q);
+  end
+endmodule
+//output:
+# KERNEL: clk=1,reset=0,q=0001
+# KERNEL: clk=1,reset=1,q=0001
+# KERNEL: clk=1,reset=1,q=0010
+# KERNEL: clk=1,reset=1,q=0100
+# KERNEL: clk=1,reset=1,q=1000
+
+    
+      
+      
