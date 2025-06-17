@@ -12,7 +12,7 @@ endmodule
 module tb;
   reg clk, reset;
   wire [3:0] count;
-  downcounter u1(.clk(clk), .reset(reset), .count(count));
+  upcounter u1(.clk(clk), .reset(reset), .count(count));
   initial begin
     clk = 0;
     forever #5 clk = ~clk;
