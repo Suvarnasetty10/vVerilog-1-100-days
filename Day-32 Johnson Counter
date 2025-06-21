@@ -1,0 +1,39 @@
+// Code your design here
+module johnsoncounter(clk,reset,q);
+  input clk,reset;
+  output reg[3:0]q;
+  always@(posedge clk or negedge reset) begin
+    if(!reset)
+      q<=4'b0001;
+    else 
+      q<={q[2:0],~q[3]};
+  end
+endmodule
+//Testbench for Johnson Counter
+module tb;
+  reg clk,reset;
+  wire [3:0] q;
+  johnsoncounter u1(.clk(clk),.reset(reset),.q(q));
+  initial begin
+    clk=0;
+    forever #5 clk=~clk;
+  end
+  initial begin
+    reset=0;#10;
+    reset=1;#80;
+    $finish;
+  end
+  always@(posedge clk)begin
+    $display("clk=%0b,reset=%0b,q=%4b",clk,reset,q);
+  end
+endmodule
+//Output:
+clk=1,reset=0,q=0001
+clk=1,reset=1,q=0001
+clk=1,reset=1,q=0011
+clk=1,reset=1,q=0111
+clk=1,reset=1,q=1111
+clk=1,reset=1,q=1110
+clk=1,reset=1,q=1100
+clk=1,reset=1,q=1000
+clk=1,reset=1,q=0000
