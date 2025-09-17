@@ -1,0 +1,17 @@
+A 4-bit parallel adder is made up of four 1-bit full adders connected in cascade. Each full adder:
+Adds two single bits plus a carry-in bit.
+Produces a sum bit (1-bit output) and a carry-out bit.
+When you combine four such full adders:
+You get a 4-bit sum output (one sum bit from each full adder).
+You also get a final carry-out bit which represents the overflow beyond 4 bits.
+So a 4-bit adder can add two 4-bit numbers and a carry-in, producing:
+A 4-bit result (sum)
+A 1-bit carry-out for any overflow (like the 5th bit)
+If the total sum is more than what fits in 4 bits (i.e., >= 16 decimal), the carry-out bit will be 1, indicating the overflow.
+Example:
+Adding 15 (1111) + 1 (0001) + 0 carry-in
+Sum bits = 0000
+Carry-out = 1
+Total 5-bit result = 10000 (16 decimal)
+So, the carry-out acts like a 5th bit of the result which cannot fit in the 4-bit sum vector.
+This is a standard design in ripple carry adders and is how multiple full adders build larger bit-width adders.
